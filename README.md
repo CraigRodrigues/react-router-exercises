@@ -103,7 +103,7 @@ Notice that the Route for `path="/"` has the `exact` attribute. That tells react
 * Our top unordered list is really just navigation, so let's make that its own component to be more declarative.
 * Let's also add some links!
 
-```javascript
+```jsx
 const Navigation = () => (
     <ul>
         <li>
@@ -144,7 +144,7 @@ const App = () => (
 
 * Alternatively, you can also display the props on the component directly. For example, suppose you modify the Eat component as follows:
 
-```javascript
+```jsx
 const Contact = (props) => (
   <div>
     <h1>Contact Us</h1>
@@ -161,7 +161,7 @@ const Contact = (props) => (
 
 * Let's see what that looks like. First, create a new file called `src/Students.js`. Inside of `src/App.js`, import the new component we will build and create a link to it in our nav bar.
 
-```javascript
+```jsx
     <li>
         <Link to="/students">Students</Link>
     </li>
@@ -171,7 +171,7 @@ const Contact = (props) => (
 
 In the `src/Students.js` add the following:
 
-```javascript
+```jsx
 import React from "react";
 import { Route, Link } from "react-router-dom";
 
@@ -222,7 +222,7 @@ export default Students;
 * What if we want our components to have access to other props as well, not just those coming from the router?
 * One way is to use `render` instead of `component`. Let's see what that looks like:
 
-```javascript
+```jsx
     <Route
       exact
       path="/"
