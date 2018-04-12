@@ -232,3 +232,37 @@ export default Students;
 
 * **Notice we are using `render=` and not `component=`!**
 * You need to pass in the props into your component as an anonymous function here so you still have access to the params and location objects!
+
+## Switch
+
+* Import the `Switch` component from `react-router-dom`
+* Change your Routes to show the following and see what happens if you go to `/about`
+
+```jsx
+<Route exact path="/" component={Home} />
+<Route path="/about" component={About} />
+<Route path="/about/goodmorning" render={() => <h1>Good Morning!</h1> } />
+<Route path="/contact" component={Contact} />
+```
+
+* Using Switch, we can avoid what happens if we have two paths that have the same origin and do not use `exact`. Switch will pick only the first matching Route. Only the first route that matches `/about` is rendered.
+
+```jsx
+<Switch>
+    <Route exact path="/" component={Home} />
+    <Route path="/about" component={About} />
+    <Route path="/about/goodmorning" render={() => <h1>Good Morning!</h1> } />
+    <Route path="/books" component={Books} />
+</Switch>
+```
+
+* Furthermore, Switch allows us to specify a route to render if the URL matches no location, such as a 404 error. For that route, leave the path prop empty.
+
+```jsx
+<Route component={NotFound} />
+```
+
+In summary Switch will do the following:
+
+1. Avoid inclusive route rendering.
+1. Allow you to include a catch-all Route at the bottom of the Switch container.
