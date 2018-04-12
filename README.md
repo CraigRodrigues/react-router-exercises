@@ -2,9 +2,9 @@
 
 ## SPAs
 
-So far all of our React applications have been composed of a few components. As our applications grow, we will need to change the components on the page. Often the changes happen because of a link that was clicked or because of data that has been submitted.
+* So far all of our React applications have been composed of a few components. As our applications grow, we will need to change the components on the page. Often the changes happen because of a link that was clicked or because of data that has been submitted.
 
-Any client-side (JavaScript) application that transitions between pages without refreshing the page or rendering a new HTML file from the server is called a Single-Page Application. On a well-designed SPA, the user should feel like the page still functions just like a standard server-based web app.
+* Any client-side (JavaScript) application that transitions between pages without refreshing the page or rendering a new HTML file from the server is called a Single-Page Application. On a well-designed SPA, the user should feel like the page still functions just like a standard server-based web app.
 
 ### Specifically:
 
@@ -20,12 +20,11 @@ Some frameworks like Angular and Ember come with a router, but since React is a 
 * `react-router` (base dependency package, not installed directly)
 * `react-router-dom` (this package is used for web development)
 * `react-router-native` (this package is used for mobile development)
-
-Note: We won't be installing `react-router` directly. It will be installed as a dependency of `react-router-dom`.
+* Note: We won't be installing `react-router` directly. It will be installed as a dependency of `react-router-dom`.
 
 ## First
 
-First, go to to the `src/index.js` file inside of your repo. We are going to wrap the `App` component with a router. The code should look like this:
+Go to to the `src/index.js` file inside of your repo. We are going to wrap the `App` component with a router. The code should look like this:
 
 ```javascript
 import React from 'react';
@@ -61,34 +60,32 @@ Let's add some routes to `App.js`.
 import React from 'react';
 import { Route, Link } from 'react-router-dom';
 
-const Home = () => {
-    return <h1>Home</h1>;
-}
+const Home = () => (
+    <h1>Home</h1>
+);
 
-const About = () => {
-    return <h1>About</h1>;
-}
+const About = () => (
+    <h1>About</h1>
+);
 
-const Contact = () => {
-    return <h1>Contact Us</h1>;
-}
+const Contact = () => (
+    <h1>Contact Us</h1>
+);
 
-const App = () => {
-    return (
-        <div>
-            <h1>Hello, world!</h1>
-            <ul>
-                <li>Home</li>
-                <li>About</li>
-                <li>Contact Us</li>
-            </ul>
+const App = () => (
+    <div>
+        <h1>Hello, world!</h1>
+        <ul>
+            <li>Home</li>
+            <li>About</li>
+            <li>Contact Us</li>
+        </ul>
 
-            <Route exact path="/" component={Home} />
-            <Route path="/about" component={About} />
-            <Route path="/contact" component={Contact} />
-        </div>
-    );
-};
+        <Route exact path="/" component={Home} />
+        <Route path="/about" component={About} />
+        <Route path="/contact" component={Contact} />
+    </div>
+);
 
 export default App;
 ```
@@ -107,34 +104,30 @@ Notice that the Route for `path="/"` has the `exact` attribute. That tells react
 * Let's also add some links!
 
 ```javascript
-const Navigation = () => {
-    return (
-        <ul>
-            <li>
-                <Link to="/">Home</Link>
-            </li>
-            <li>
-                <Link to="/about">About</Link>
-            </li>
-            <li>
-                <Link to="/contact">Contact Us</Link>
-            </li>
-        </ul>
-    )
-}
+const Navigation = () => (
+    <ul>
+        <li>
+            <Link to="/">Home</Link>
+        </li>
+        <li>
+            <Link to="/about">About</Link>
+        </li>
+        <li>
+            <Link to="/contact">Contact Us</Link>
+        </li>
+    </ul>
+);
 
-const App = () => {
-    return (
-        <div>
-            <h1>Hello, world!</h1>
-            <Navigation />
+const App = () => (
+    <div>
+        <h1>Hello, world!</h1>
+        <Navigation />
 
-            <Route exact path="/" component={Home} />
-            <Route path="/about" component={About} />
-            <Route path="/contact" component={Contact} />
-        </div>
-    );
-};
+        <Route exact path="/" component={Home} />
+        <Route path="/about" component={About} />
+        <Route path="/contact" component={Contact} />
+    </div>
+);
 ```
 
 * The `Link` components you see are used as a replacement for the built-in anchor tag. If we're building a single-page application, anchor tags can't really be used, since they cause the page to reload. So when you're using React Router, you should be using `<Link>` instead of `<a>` to control links on the page.
@@ -142,3 +135,100 @@ const App = () => {
 * Try running the application and clicking on the links. Notice that the address bar in the browser is changing. If you open up your network tab in chrome developer tools and check for HTTP requests, you should see that nothing is happening on the network and that the browser is not reloading the page.
 
 * So how does this work? Whenever you click on a Link component, react uses `window.history` to change the url in the address bar. The Route component renders the component specified in the component attribute whenever the current url path matches the path attribute.
+
+## Route Props
+
+* In our example above, none of the components we wrote (Home, About, Contact) have any props. However, when you pass a component to Route, the component you pass automatically gets access to three props: `match, location, and history`.
+
+* These props provide you with information about the route, the query string, and give you the ability to mutate the history. (P.S. You can see these props more explicitly by using the React tab in the Chrome dev tools if you have that installed).
+
+* Alternatively, you can also display the props on the component directly. For example, suppose you modify the Eat component as follows:
+
+```javascript
+const Contact = (props) => (
+  <div>
+    <h1>Contact Us</h1>
+    <pre>{JSON.stringify(props, null, 4)}</pre>
+  </div>
+);
+```
+
+* Now when you go to `/contact`, you should be able to see all of the props on the page.
+
+## URL Parameters
+
+* Once common use case for the route props is working with URL parameters. In order to access these parameters, we use the `match` object given to us by React Router. More specifically, the any URL parameters will live inside of the `match.params` object as key-value pairs. We can access values in the query string using the `location` object given to us by React Router as well.
+
+* Let's see what that looks like. First, create a new file called `src/Students.js`. Inside of `src/App.js`, import the new component we will build and create a link to it in our nav bar.
+
+```javascript
+    <li>
+        <Link to="/students">Students</Link>
+    </li>
+```
+
+## Students
+
+In the `src/Students.js` add the following:
+
+```javascript
+import React from "react";
+import { Route, Link } from "react-router-dom";
+
+const Student = ({ match, location }) => {
+  // this should match whatever was put into :name!
+  const { name } = match.params;
+
+  return (
+    <div>
+      <h3>Student Info For {name ? name : "No One"}</h3>
+      <h4>
+        What's in match? <pre>{JSON.stringify(match, null, 4)}</pre>
+      </h4>
+      <h4>
+        What's in location? <pre>{JSON.stringify(location, null, 4)}</pre>
+      </h4>
+    </div>
+  );
+};
+
+const Students = () => (
+  <div>
+    <h2>Students:</h2>
+    <ul>
+      <li>
+        <Link to="/name/craig">Craig</Link>
+      </li>
+      <li>
+        <Link to="/name/marcel">Marcel</Link>
+      </li>
+      <li>
+        <Link to="/name/ignacio">Ignacio</Link>
+      </li>
+    </ul>
+
+    <Route path="/name/:name" component={Student} />
+  </div>
+);
+
+export default Students;
+```
+
+* Notice here how we use `:name` in `<Route path="/name/:name" component={Student} />`.
+* Whatever is after the `:` will be passed into the component in the params object in the props.match of the component. You can see how it changes as we insert different student names.
+
+## Passing Props to a Route
+
+* What if we want our components to have access to other props as well, not just those coming from the router?
+* One way is to use `render` instead of `component`. Let's see what that looks like:
+
+```javascript
+    <Route
+      exact
+      path="/"
+      render={(props) => <Home {...props} extra={yourExtraStuffHere} />}
+    />
+```
+
+* **Notice we are using `render=` and not `component=`!**
+* You need to pass in the props into your component as an anonymous function here so you still have access to the params and location objects!
