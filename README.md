@@ -193,22 +193,22 @@ const Student = ({ match, location }) => {
 };
 
 const Students = () => (
-  <div>
-    <h2>Students:</h2>
-    <ul>
-      <li>
-        <Link to="/name/craig">Craig</Link>
-      </li>
-      <li>
-        <Link to="/name/marcel">Marcel</Link>
-      </li>
-      <li>
-        <Link to="/name/ignacio">Ignacio</Link>
-      </li>
-    </ul>
+	<div>
+		<h2>Students:</h2>
+		<ul>
+			<li>
+				<Link to="/students/name/craig">Craig</Link>
+			</li>
+			<li>
+				<Link to="/students/name/marcel">Marcel</Link>
+			</li>
+			<li>
+				<Link to="/students/name/ignacio">Ignacio</Link>
+			</li>
+		</ul>
 
-    <Route path="/name/:name" component={Student} />
-  </div>
+		<Route path="/students/name/:name" component={Student} />
+	</div>
 );
 
 export default Students;
